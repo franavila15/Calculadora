@@ -119,6 +119,16 @@ const showResult = () => {
   if (!currentOperator) return;
   const oldResult = lastValue !== undefined ? lastValue : result;
   if (lastValue) result = lastValue;
+  
+  // Verificar divisão por zero
+  if (currentOperator === 'div' && parseFloat(operatorDigit) === 0) {
+    resultPanel.innerText = 'Erro';
+    result = '0';
+    currentOperator = null;
+    operatorDigit = '0';
+    return;
+  }
+  
   if (currentOperator === 'sum') result = (parseFloat(result) + parseFloat(operatorDigit)).toFixed(1);
   else if (currentOperator === 'minus') result = (parseFloat(result) - parseFloat(operatorDigit)).toFixed(1);
   else if (currentOperator === 'div') result = (parseFloat(result) / parseFloat(operatorDigit)).toFixed(1);
@@ -135,9 +145,9 @@ window.onload = () => {
   addNumberFunctions();
   addEraseFunction();
   addEraseAllFunction();
-  addOperator(operators[0], div);
-  addOperator(operators[1], mult);
-  addOperator(operators[2], minus);
-  addOperator(operators[3], sum);
-  operators[4].addEventListener('click', showResult);
+  addOperator(operators[0], div);  // ÷
+  addOperator(operators[1], mult); // x
+  addOperator(operators[2], minus); // -
+  addOperator(operators[3], sum);  // +
+  operators[4].addEventListener('click', showResult); // =
 }
